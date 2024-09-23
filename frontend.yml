@@ -1,0 +1,17 @@
+- name: Configuring Frontend server
+  hosts: frontend
+  vars:
+    -
+  vars_files:
+  - common_vars.yml
+  - frontend_vars.yml
+  tasks:
+  - name: Install required dnf packages({{DNF_PKGS}})
+    ansible.builtin.dnf:
+      name: "{{DNF_PKGS}}"
+      state: present
+
+  - name: Remove previous code files at {{CODE_DIR}}
+    ansible.builtin.file:
+      path: "{{CODE_DIR}}/*"
+      state: absent

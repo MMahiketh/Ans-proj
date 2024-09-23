@@ -19,9 +19,9 @@
       name: "{{DNF_PKGS}}"
       state: present
 
-  - name: Create directory {{APP_DIR}} for app
+  - name: Create directory {{CODE_DIR}} for app
     ansible.builtin.file:
-      path: "{{APP_DIR}}"
+      path: "{{CODE_DIR}}"
       state: directory
 
   - name: Create user({{APP_USER}}) for running app
@@ -33,16 +33,16 @@
       url: "{{CODE_URL}}"
       dest: /tmp/backend.zip
 
-  - name: Extract backend.zip to {{APP_DIR}}
+  - name: Extract backend.zip to {{CODE_DIR}}
     ansible.builtin.unarchive:
       src: /tmp/backend.zip
-      dest: "{{APP_DIR}}"
+      dest: "{{CODE_DIR}}"
       remote_src: yes
 
   - name: Install npm dependencies
     ansible.builtin.command: npm install
     args:
-      chdir: "{{APP_DIR}}"
+      chdir: "{{CODE_DIR}}"
 
   - name: Copy configuration file:backend.service
     ansible.builtin.copy:

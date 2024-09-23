@@ -1,0 +1,7 @@
+COMPONENT: forntend
+#PIP_PKGS:
+#- PyMySQL
+#- cryptography
+DNF_PKGS:
+- nginx
+CODE_DIR: /usr/share/nginx/html

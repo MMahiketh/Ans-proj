@@ -1,3 +1,4 @@
+COMPONENT: backend
 PIP_PKGS:
 - PyMySQL
 - cryptography
@@ -5,6 +6,5 @@ DNF_PKGS:
 - nodejs
 - mysql
 APP_USER: expense
-APP_DIR: /app
+CODE_DIR: /app
 SCHEMA_FILE: "{{APP_DIR}}/schema/backend.sql"
-CODE_URL: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
