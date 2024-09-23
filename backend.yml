@@ -14,7 +14,7 @@
   - name: Disable all nodejs modules, except nodejs:20
     ansible.builtin.shell: "{{CMD_TO_ENABLE_NODEJS20}}"
 
-  - name: Install required dnf packages({{DNF_PKGS}}
+  - name: Install required dnf packages({{DNF_PKGS}})
     ansible.builtin.dnf:
       name: "{{DNF_PKGS}}"
       state: present
@@ -57,3 +57,10 @@
       target: "{{SCHEMA_FILE}}"
       state: import
       name: all
+
+  - name: Reload systemctl daemon
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+      name: backend
+      state: started
+      enabled: true
