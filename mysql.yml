@@ -21,7 +21,7 @@
     community.mysql.mysql_info:
       login_host: "{{MYSQL_DNS}}"
       login_user: "{{MYSQL_USER}}"
-      login_pass: "{{MYSQL_PASS}}"
+      login_password: "{{MYSQL_PASS}}"
     register: mysql_info
     ignore_errors: true
 
