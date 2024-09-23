@@ -5,6 +5,11 @@
     MYSQL_DNS: database.mahdo.site
     MYSQL_USER: root
   tasks:
+  - name: Install PyMySQL for connecting to mysql server
+    ansible.builtin.pip:
+      name:
+      - PyMySQL
+
   - name: Installing mysql server
     ansible.builtin.dnf:
       name:
