@@ -24,7 +24,7 @@
       path: "{{CODE_DIR}}"
       state: directory
 
-  - name: Create user({{APP_USER}}) for running app
+  - name: Create user:{{APP_USER}}) for running app
     ansible.builtin.user:
       name: "{{APP_USER}}"
 
