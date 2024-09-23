@@ -1,0 +1,66 @@
+- name: Configuring Backend server
+  hosts: backend
+  become: true
+  vars:
+    DNF_PKGS:
+    - nodejs
+    - mysql
+    PIP_PKGS:
+    - PyMySQL
+    APP_USER: expense
+    APP_DIR: /app
+    SCHEMA_FILE: "{{APP_DIR}}/schema/backend.sql"
+    CODE_URL: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
+    CMD_TO_ENABLE_NODEJS20: sudo dnf module disable nodejs -y; sudo dnf module enable nodejs:20 -y
+
+  tasks:
+  - name: Install required pip packages: PyMySQL
+    ansible.builtin.pip:
+      name: "{{PIP_PKGS}}"
+
+  - name: Disable all nodejs modules, except nodejs:20
+    ansible.builtin.command: "{{CMD_TO_ENABLE_NODEJS20}}"
+
+  - name: Install required dnf packages: nodejs
+    ansible.builtin.dnf:
+      name: "{{DNF_PKGS}}"
+      state: present
+
+  - name: Create directory for app
+    ansible.builtin.file:
+      path: "{{APP_DIR}}"
+      state: directory
+
+  - name: Create user for running app: expense
+    ansible.builtin.user:
+      name: "{{APP_USER}}"
+
+  - name: Download app code
+    ansible.builtin.get_url:
+      url: "{{CODE_URL}}"
+      dest: /tmp/backend.zip
+
+  - name: Extract backend.zip to "{{APP_DIR}}"
+    ansible.builtin.unarchive:
+      src: /tmp/backend.zip
+      dest: "{{APP_DIR}}"
+      remote_src: yes
+
+  - name: Install npm dependencies
+    ansible.builtin.command: npm install
+    args:
+      chdir: "{{APP_DIR}}"
+
+  - name: Copy configuration file: backend.service
+    ansible.builtin.copy:
+      src: backend.service
+      dest: /etc/systemd/system/backend.service
+
+  - name: Create database in mysql server
+    community.mysql.mysql_db:
+      login_host: "{{MYSQL_DNS}}"
+      login_user: "{{MYSQL_USER}}"
+      login_password: "{{MYSQL_PASS}}"
+      target: "{{SCHEMA_FILE}}"
+      state: present
+      name: all
