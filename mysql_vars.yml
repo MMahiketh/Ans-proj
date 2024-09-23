@@ -1,0 +1,4 @@
+PIP_PKGS:
+- PyMySQL
+DNF_PKGS:
+- sql-server

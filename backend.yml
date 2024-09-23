@@ -2,26 +2,19 @@
   hosts: backend
   become: true
   vars:
-    DNF_PKGS:
-    - nodejs
-    - mysql
-    PIP_PKGS:
-    - PyMySQL
-    APP_USER: expense
-    APP_DIR: /app
-    SCHEMA_FILE: "{{APP_DIR}}/schema/backend.sql"
-    CODE_URL: https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip
     CMD_TO_ENABLE_NODEJS20: sudo dnf module disable nodejs -y; sudo dnf module enable nodejs:20 -y
-
+  vars_files:
+  - common_vars.yml
+  - backend_vars.yml
   tasks:
-  - name: Install required pip packages:PyMySQL
+  - name: Install required pip packages({{PIP_PKGS}})
     ansible.builtin.pip:
       name: "{{PIP_PKGS}}"
 
   - name: Disable all nodejs modules, except nodejs:20
     ansible.builtin.shell: "{{CMD_TO_ENABLE_NODEJS20}}"
 
-  - name: Install required dnf packages:nodejs
+  - name: "Install required dnf packages({{DNF_PKGS}}"
     ansible.builtin.dnf:
       name: "{{DNF_PKGS}}"
       state: present
