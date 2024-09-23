@@ -1,5 +1,6 @@
 - name: Configuring Frontend server
   hosts: frontend
+  become: true
     #vars:
     #-
   vars_files:
@@ -13,5 +14,5 @@
 
   - name: Remove previous code files at {{CODE_DIR}}
     ansible.builtin.file:
-      path: "{{CODE_DIR}}/*"
+      path: "{{CODE_DIR}}/"
       state: absent
