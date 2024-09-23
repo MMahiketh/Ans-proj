@@ -14,14 +14,14 @@
     CMD_TO_ENABLE_NODEJS20: sudo dnf module disable nodejs -y; sudo dnf module enable nodejs:20 -y
 
   tasks:
-  - name: Install required pip packages: PyMySQL
+  - name: Install required pip packages:PyMySQL
     ansible.builtin.pip:
       name: "{{PIP_PKGS}}"
 
   - name: Disable all nodejs modules, except nodejs:20
     ansible.builtin.command: "{{CMD_TO_ENABLE_NODEJS20}}"
 
-  - name: Install required dnf packages: nodejs
+  - name: Install required dnf packages:nodejs
     ansible.builtin.dnf:
       name: "{{DNF_PKGS}}"
       state: present
@@ -31,7 +31,7 @@
       path: "{{APP_DIR}}"
       state: directory
 
-  - name: Create user for running app: expense
+  - name: Create user for running app:expense
     ansible.builtin.user:
       name: "{{APP_USER}}"
 
