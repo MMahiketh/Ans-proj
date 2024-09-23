@@ -7,11 +7,11 @@
   vars:
     CMD_MYSQL_SET_PASS: "mysql_secure_installation --set-root-pass {{MYSQL_PASS}}"
   tasks:
-  - name: Install PyMySQL for connecting to mysql server
+  - name: Install required pip packages({{PIP_PKGS}})
     ansible.builtin.pip:
       name: "{{PIP_PKGS}}"
 
-  - name: Installing mysql server
+  - name: Installing required dnf packages({{DNF_PKGS}})
     ansible.builtin.dnf:
       name: "{{DNF_PKGS}}"
       state: present

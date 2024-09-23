@@ -14,17 +14,17 @@
   - name: Disable all nodejs modules, except nodejs:20
     ansible.builtin.shell: "{{CMD_TO_ENABLE_NODEJS20}}"
 
-  - name: "Install required dnf packages({{DNF_PKGS}}"
+  - name: Install required dnf packages({{DNF_PKGS}}
     ansible.builtin.dnf:
       name: "{{DNF_PKGS}}"
       state: present
 
-  - name: Create directory for app
+  - name: Create directory {{APP_DIR}} for app
     ansible.builtin.file:
       path: "{{APP_DIR}}"
       state: directory
 
-  - name: Create user for running app:expense
+  - name: Create user({{APP_USER}}) for running app
     ansible.builtin.user:
       name: "{{APP_USER}}"
 
@@ -33,7 +33,7 @@
       url: "{{CODE_URL}}"
       dest: /tmp/backend.zip
 
-  - name: Extract backend.zip to "{{APP_DIR}}"
+  - name: Extract backend.zip to {{APP_DIR}}
     ansible.builtin.unarchive:
       src: /tmp/backend.zip
       dest: "{{APP_DIR}}"
@@ -55,5 +55,5 @@
       login_user: "{{MYSQL_USER}}"
       login_password: "{{MYSQL_PASS}}"
       target: "{{SCHEMA_FILE}}"
-      state: present
+      state: import
       name: all
