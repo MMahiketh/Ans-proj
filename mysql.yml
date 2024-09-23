@@ -1,6 +1,13 @@
 - name: Configuring mysql server
   hosts: database
   become: true
+  vars:
+    MYSQL_DNS: database.mahdo.site
+    MYSQL_USER: root
+  vars_prompt:
+    MYSQL_PASS:
+      prompt: Please enter MySQL password
+      private: true
   tasks:
   - name: Installing mysql server
     ansible.builtin.dnf:
@@ -16,12 +23,16 @@
 
   - name: Check if root password of mysql is set
     community.mysql.mysql_info:
-      login_host:
-        login_user:
-          login_pass:
+      login_host: "{{MYSQL_DNS}}"
+      login_user: "{{MYSQL_USER}}"
+      login_pass: "{{MYSQL_PASS}}"
     register: mysql_info
     ignore_errors: true
 
   - name: print mysql_info var output
     ansible.builtin.debug:
       msg: "{{mysql_info}}"
+
+  - name: If root password not set, then set it
+    ansible.builtin.command: "mysql_secure_installation --set-root-pass {{MYSQL_PASS}}"
+    when: mysql_info.failed is true
