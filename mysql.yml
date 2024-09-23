@@ -1,0 +1,27 @@
+- name: Configuring mysql server
+  hosts: database
+  become: true
+  tasks:
+  - name: Installing mysql server
+    ansible.builtin.dnf:
+      name:
+      - mysql-server
+      state: present
+
+  - name: Start and enable mysql server
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: true
+
+  - name: Check if root password of mysql is set
+    community.mysql.mysql_info:
+      login_host:
+        login_user:
+          login_pass:
+    register: mysql_info
+    ignore_errors: true
+
+  - name: print mysql_info var output
+    ansible.builtin.debug:
+      msg: "{{mysql_info}}"
