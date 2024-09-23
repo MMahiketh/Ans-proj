@@ -1,4 +1,4 @@
-COMPONENT: forntend
+COMPONENT: frontend
 #PIP_PKGS:
 #- PyMySQL
 #- cryptography
