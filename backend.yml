@@ -19,7 +19,7 @@
       name: "{{PIP_PKGS}}"
 
   - name: Disable all nodejs modules, except nodejs:20
-    ansible.builtin.command: "{{CMD_TO_ENABLE_NODEJS20}}"
+    ansible.builtin.shell: "{{CMD_TO_ENABLE_NODEJS20}}"
 
   - name: Install required dnf packages:nodejs
     ansible.builtin.dnf:
