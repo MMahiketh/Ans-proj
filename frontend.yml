@@ -1,7 +1,7 @@
 - name: Configuring Frontend server
   hosts: frontend
-  vars:
-    -
+    #vars:
+    #-
   vars_files:
   - common_vars.yml
   - frontend_vars.yml

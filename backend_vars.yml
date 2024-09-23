@@ -7,4 +7,4 @@ DNF_PKGS:
 - mysql
 APP_USER: expense
 CODE_DIR: /app
-SCHEMA_FILE: "{{APP_DIR}}/schema/backend.sql"
+SCHEMA_FILE: "{{CODE_DIR}}/schema/backend.sql"
