@@ -1,5 +1,6 @@
 PIP_PKGS:
 - PyMySQL
+- cryptography
 DNF_PKGS:
 - nodejs
 - mysql
